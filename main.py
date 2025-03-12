@@ -4,7 +4,7 @@ import subprocess
 
 import requests
 
-model_name = "llama3.1:8b"  # Nome do modelo no Ollama
+model_name = "llama3.1:8b"
 
 
 def _extract_code_from_response(response):
@@ -44,9 +44,8 @@ script_dir = "gen_code"
 os.makedirs(script_dir, exist_ok=True)
 
 random_num = random.randint(100000, 999999)
-# filename = f"script_{random_num}.py"
 
-filename = os.path.join(script_dir, f"script_{random_num}.py")  # Caminho completo do arquivo
+filename = os.path.join(script_dir, f"script_{random_num}.py")
 
 with open(filename, "w", encoding="utf-8-sig") as f:
     f.write(test_script)
