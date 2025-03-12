@@ -1,3 +1,4 @@
+import os
 import random
 import subprocess
 
@@ -17,7 +18,7 @@ def _extract_code_from_response(response):
 
 
 prompt = f"""
-Gere um arquivo python com um script legal, que nunca precise passar parâmetro de entrada:
+Gere um arquivo python com um script legal:
 
 Formato do script:
 ```python
@@ -39,16 +40,29 @@ print('response_text', response_text)
 
 test_script = _extract_code_from_response(response_text)
 
+script_dir = "gen_code"
+os.makedirs(script_dir, exist_ok=True)
+
 random_num = random.randint(100000, 999999)
-filename = f"script_{random_num}.py"
+# filename = f"script_{random_num}.py"
+
+filename = os.path.join(script_dir, f"script_{random_num}.py")  # Caminho completo do arquivo
 
 with open(filename, "w", encoding="utf-8-sig") as f:
     f.write(test_script)
 
 print("\n--- Executando o script ---\n")
 try:
-    result = subprocess.run(["python", filename], capture_output=True, text=True, check=True)
+    result = subprocess.run(
+        ["python", filename],
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=2  # Timeout de 2 sec
+    )
     print(result.stdout)
+except subprocess.TimeoutExpired:
+    print("\n--- Erro: Tempo limite excedido! ---\n")
 except subprocess.CalledProcessError as e:
     print("\n--- Erro na execução ---\n")
     print(e.stderr)
