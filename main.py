@@ -17,8 +17,11 @@ def _extract_code_from_response(response):
         return response.strip()
 
 
+# TODO: Gerar palavra aleatória com base no ollama
+word = 'elafantes'
+
 prompt = f"""
-Gere um arquivo python com um script legal:
+Gere um arquivo python com um script que envolva {word}:
 
 Formato do script:
 ```python
